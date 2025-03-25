@@ -14,7 +14,6 @@ async def get_pic_url(message: Message) -> str | None:
         return None
     else:
         photo: dict[str: str] = message.photo[-1]
-        print(photo)
         pic_info: dict[str: str] = await bot.get_file(photo.file_id)
         pic_path: str = pic_info.file_path
 
@@ -37,8 +36,7 @@ async def get_live_url(message: Message) -> str | None:
     live_url: str = query.get('url', None)
 
     if not live_url:
-        err_description: str = query.get('message', None)
-        await message.reply('Ошибка при обработке фото. Попробуйте дугую фотографию.')
-        await message.reply(err_description[0].upper() + err_description[1:])
+        err_description: str = query.get('msg', None)
+        await message.reply(f'Ошибка при обработке фото.\n{err_description[0].upper() + err_description[1:]}')
 
     return live_url
