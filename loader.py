@@ -1,15 +1,18 @@
 from loguru import logger
 
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, Router
 from aiogram.enums import ParseMode
 from aiogram.client.default import DefaultBotProperties
 
-from config_data.bot_config import BOT_TOKEN, API_KEY
+from config_data.bot_config import BOT_TOKEN
 
 # Инициализация логирования
 logger.add('debug.log', format='{time} {level} {message}', level='DEBUG', rotation='100 MB', compression='zip')
 
+# Главный роутер (можно include другие роутеры в него)
+router: Router = Router()
+
 # Инициализация бота
-cutout_api: str = API_KEY
 bot: Bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp: Dispatcher = Dispatcher()
+dp.include_router(router)
